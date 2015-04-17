@@ -1,0 +1,24 @@
+{
+  "name": "async-uglify-js-webpack-plugin",
+  "version": "0.0.1",
+  "description": "A webpack plugin to asynchronously uglify webpack bundles",
+  "main": "index.js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbgutierrez/async-uglify-js-webpack-plugin.git"
+  },
+  "keywords": [
+    "async",
+    "optimize",
+    "plugin",
+    "uglify",
+    "webpack",
+    "webpackplugin"
+  ],
+  "author": "Javier Blanco <http://jbgutierrez.info>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jbgutierrez/async-uglify-js-webpack-plugin/issues"
+  },
+  "homepage": "https://github.com/jbgutierrez/async-uglify-js-webpack-plugin#readme"
+}
