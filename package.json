@@ -1,6 +1,6 @@
 {
   "name": "async-uglify-js-webpack-plugin",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A webpack plugin to asynchronously uglify webpack bundles",
   "main": "index.js",
   "repository": {
@@ -20,5 +20,8 @@
   "bugs": {
     "url": "https://github.com/jbgutierrez/async-uglify-js-webpack-plugin/issues"
   },
-  "homepage": "https://github.com/jbgutierrez/async-uglify-js-webpack-plugin#readme"
+  "homepage": "https://github.com/jbgutierrez/async-uglify-js-webpack-plugin#readme",
+  "dependencies": {
+    "uglify-js": "^2.4.20"
+  }
 }
