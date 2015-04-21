@@ -19,7 +19,7 @@ module.exports = {
       minifyOptions: {},
       logger: false,
       done: function(path, originalContents) { }
-    });
+    })
   ]
 }
 ```
