@@ -43,7 +43,7 @@ minimizeTask = (chunk) ->
 
 compileAsync = (chunk, delay) ->
   clearTimeout timers[chunk.id]
-  chunk.path = path.resolve 'builds', chunk.files[0]
+  chunk.path = path.resolve options.outputPath, chunk.files[0]
   fs.readFile chunk.path, (err, buffer) ->
     chunk.fullhash = md5 buffer
     timers[chunk.id] = setTimeout minimizeTask(chunk), options.delay
@@ -54,6 +54,7 @@ class AsyncUglifyJsPlugin
     options.minifyOptions.fromString = true
 
   apply: (compiler) ->
+    options.outputPath = compiler.options.output.path or '.'
     compiler.plugin 'done', (stats) ->
       stats = stats.toJson()
       compileAsync chunk for chunk in stats.chunks
