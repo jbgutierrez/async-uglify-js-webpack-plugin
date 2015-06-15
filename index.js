@@ -60,6 +60,7 @@
   minimizeTask = function(chunk) {
     return function() {
       return fs.readFile(chunk.path, function(err, buffer) {
+        var contents, result;
         if (err) {
           throw err;
         }
@@ -67,15 +68,11 @@
           return;
         }
         log("starting minification " + chunk.path);
-        return fs.writeFile(chunk.path, buffer, function(err) {
-          var contents, result;
+        contents = buffer.toString();
+        result = UglifyJS.minify(contents, options.minifyOptions);
+        return fs.writeFile(chunk.path, result.code, function(err) {
           if (err) {
             throw err;
-          }
-          contents = buffer.toString();
-          result = UglifyJS.minify(contents, options.minifyOptions);
-          if (isStale(chunk)) {
-            return;
           }
           return options.done(chunk.path, contents);
         });

@@ -36,12 +36,12 @@ minimizeTask = (chunk) ->
       return if isStale chunk
 
       log "starting minification #{chunk.path}"
-      fs.writeFile chunk.path, buffer, (err) ->
-        throw err if err
-        contents = buffer.toString()
-        result = UglifyJS.minify contents, options.minifyOptions
 
-        return if isStale chunk
+      contents = buffer.toString()
+      result = UglifyJS.minify contents, options.minifyOptions
+
+      fs.writeFile chunk.path, result.code, (err) ->
+        throw err if err
 
         options.done chunk.path, contents
 
