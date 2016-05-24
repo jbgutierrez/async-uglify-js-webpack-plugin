@@ -2,6 +2,7 @@ crypto = require 'crypto'
 fs = require 'fs'
 path = require 'path'
 UglifyJS = require 'uglify-js'
+UglifyCSS = require 'uglifycss'
 
 timers = {}
 options =
@@ -38,16 +39,20 @@ minimizeTask = (chunk) ->
       log "starting minification #{chunk.path}"
 
       contents = buffer.toString()
-      result = UglifyJS.minify contents, options.minifyOptions
+      result = if /.js/.test chunk.path
+        UglifyJS.minify(contents, options.minifyOptions).code
+      else
+        UglifyCSS.processString contents, options.minifyOptions
 
-      fs.writeFile chunk.path, result.code, (err) ->
+      fs.writeFile chunk.path, result, (err) ->
         throw err if err
 
         options.done chunk.path, contents
 
-scheduleMinification = (chunk, delay) ->
+scheduleMinification = (file, delay) ->
+  chunk = id: file, file: file
   clearTimeout timers[chunk.id]
-  chunk.path = path.resolve options.outputPath, chunk.files[0]
+  chunk.path = path.resolve options.outputPath, chunk.file
   fs.readFile chunk.path, (err, buffer) ->
     chunk.fullhash = md5 buffer
     timers[chunk.id] = setTimeout minimizeTask(chunk), options.delay
@@ -64,7 +69,8 @@ class AsyncUglifyJsPlugin
       stats = stats.toJson()
       if previousHash isnt stats.hash
         debug "schedule minification"
-        scheduleMinification chunk for chunk in stats.chunks
+        for chunk in stats.chunks
+          scheduleMinification file for file in chunk.files
         previousHash = stats.hash
 
 module.exports = AsyncUglifyJsPlugin
