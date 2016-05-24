@@ -39,7 +39,7 @@ minimizeTask = (chunk) ->
       log "starting minification #{chunk.path}"
 
       contents = buffer.toString()
-      result = if /.js/.test chunk.path
+      result = if /.js$/.test chunk.path
         UglifyJS.minify(contents, options.minifyOptions).code
       else
         UglifyCSS.processString contents, options.minifyOptions

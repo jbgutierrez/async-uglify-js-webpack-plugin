@@ -71,7 +71,7 @@
         }
         log("starting minification " + chunk.path);
         contents = buffer.toString();
-        result = /.js/.test(chunk.path) ? UglifyJS.minify(contents, options.minifyOptions).code : UglifyCSS.processString(contents, options.minifyOptions);
+        result = /.js$/.test(chunk.path) ? UglifyJS.minify(contents, options.minifyOptions).code : UglifyCSS.processString(contents, options.minifyOptions);
         return fs.writeFile(chunk.path, result, function(err) {
           if (err) {
             throw err;
